@@ -7,7 +7,7 @@
 > **60+ 首原创古典诗词**，杭州野生诗人魏东坡以绝句、律诗、词牌、现代诗书写当代城市山水。诗词竖排、米纸底色、印章红点缀——一本会呼吸的电子诗集。
 
 <p align="center">
-  <a href="https://你的用户名.github.io/beautiful-chinese-poetry"><strong>🌐 在线预览</strong></a>
+  <a href="https://wei-william-hz.github.io/beautiful-chinese-poetry/"><strong>🌐 在线预览</strong></a>
   &nbsp;·&nbsp;
   <a href="./poems/01-hangzhou.md">📜 开始阅读</a>
   &nbsp;·&nbsp;
@@ -56,7 +56,7 @@
 ## 本地预览
 
 ```bash
-git clone https://github.com/你的用户名/beautiful-chinese-poetry.git
+git clone https://github.com/wei-william-hz/beautiful-chinese-poetry.git
 cd beautiful-chinese-poetry
 python -m http.server 8000
 # 浏览器打开 http://localhost:8000

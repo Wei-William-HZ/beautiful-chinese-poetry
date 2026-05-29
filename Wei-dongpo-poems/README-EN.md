@@ -7,7 +7,7 @@
 > **60+ original classical Chinese poems** by Wei Dongpo, a wild poet from Hangzhou. *Jueju*, *lüshi*, *ci*, and modern verse — capturing China's cities and seasons through the brush of a contemporary literatus. Vertical poem layout, rice-paper aesthetic, vermillion seals — a living e-book of Chinese poetry.
 
 <p align="center">
-  <a href="https://your-username.github.io/beautiful-chinese-poetry"><strong>🌐 Live Demo</strong></a>
+  <a href="https://wei-william-hz.github.io/beautiful-chinese-poetry/"><strong>🌐 Live Demo</strong></a>
   &nbsp;·&nbsp;
   <a href="./poems/01-hangzhou.md">📜 Browse Poems</a>
   &nbsp;·&nbsp;
@@ -56,7 +56,7 @@
 ## Run Locally
 
 ```bash
-git clone https://github.com/your-username/beautiful-chinese-poetry.git
+git clone https://github.com/wei-william-hz/beautiful-chinese-poetry.git
 cd beautiful-chinese-poetry
 python -m http.server 8000
 # Open http://localhost:8000
