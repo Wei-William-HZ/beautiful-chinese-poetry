@@ -58,8 +58,7 @@
 ```bash
 git clone https://github.com/wei-william-hz/beautiful-chinese-poetry.git
 cd beautiful-chinese-poetry
-python -m http.server 8000
-# 浏览器打开 http://localhost:8000
+
 ```
 
 ## 许可
