@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>魏东坡诗词集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f8f3e8;
+  --paper-dark: #ede4d3;
+  --ink: #1c1814;
+  --ink-light: #5c5348;
+  --ink-lighter: #8a7e70;
+  --vermillion: #9b1b30;
+  --vermillion-light: #c4333f;
+  --gold: #b8963e;
+  --border: #d4c5a9;
+  --border-light: #e5d9c4;
+  --shadow: rgba(28,24,20,.06);
+  --nav-width: 260px;
+  --max-width: 820px;
+  --radius: 4px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+  font-family: 'Noto Serif SC', 'STSong', 'SimSun', 'Songti SC', serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.8;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 80%, rgba(184,150,62,.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(155,27,48,.03) 0%, transparent 60%);
+}
+
+/* ── Sidebar ── */
+#sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0;
+  width: var(--nav-width);
+  background: linear-gradient(180deg, #f5efe2 0%, #ede4d3 100%);
+  border-right: 1px solid var(--border);
+  padding: 32px 24px;
+  overflow-y: auto;
+  z-index: 100;
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+}
+
+#sidebar .site-title {
+  font-size: 1.35rem; font-weight: 700;
+  letter-spacing: .08em; color: var(--ink);
+  text-align: center; padding-bottom: 16px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--vermillion);
+  position: relative;
+}
+#sidebar .site-title::after {
+  content: '魏';
+  position: absolute; right: 8px; bottom: -2px;
+  font-size: .65rem; color: var(--vermillion);
+  background: #f5efe2; padding: 0 6px;
+  font-family: 'ZCOOL XiaoWei', serif;
+}
+
+#sidebar .nav-group { margin-bottom: 22px; }
+#sidebar .nav-label {
+  font-size: .72rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: var(--ink-lighter); margin-bottom: 6px;
+  padding-left: 4px;
+}
+#sidebar .nav-label::before { content: '◇ '; color: var(--vermillion); font-size: .6rem; }
+
+#sidebar a {
+  display: block; padding: 7px 12px;
+  font-size: .92rem; color: var(--ink-light);
+  text-decoration: none; border-radius: var(--radius);
+  transition: all .2s; letter-spacing: .03em;
+}
+#sidebar a:hover { background: rgba(155,27,48,.06); color: var(--vermillion); }
+#sidebar a.active { background: rgba(155,27,48,.1); color: var(--vermillion); font-weight: 600; }
+#sidebar a .count { font-size: .72rem; color: var(--ink-lighter); margin-left: 4px; }
+
+/* ── Mobile nav toggle ── */
+#nav-toggle {
+  display: none; position: fixed; top: 16px; left: 16px; z-index: 200;
+  width: 40px; height: 40px; background: var(--paper-dark);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  cursor: pointer; flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; padding: 8px;
+}
+#nav-toggle span {
+  display: block; width: 20px; height: 2px;
+  background: var(--ink); border-radius: 1px;
+}
+#overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 99; }
+
+/* ── Main ── */
+#main {
+  margin-left: var(--nav-width);
+  min-height: 100vh;
+  transition: margin .35s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Cover page ── */
+#cover {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 100vh; text-align: center; padding: 48px 24px;
+  position: relative;
+}
+#cover .seal {
+  width: 72px; height: 72px;
+  border: 2.5px solid var(--vermillion); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 1.8rem; color: var(--vermillion);
+  margin-bottom: 32px; letter-spacing: 0;
+  user-select: none;
+}
+#cover h1 {
+  font-size: 2.6rem; font-weight: 900; letter-spacing: .16em;
+  color: var(--ink); margin-bottom: 16px;
+}
+#cover .tagline {
+  font-size: 1rem; color: var(--ink-lighter);
+  font-style: italic; max-width: 480px; line-height: 2;
+  margin-bottom: 40px;
+  letter-spacing: .04em;
+}
+#cover .author {
+  font-size: .88rem; color: var(--ink-light);
+  letter-spacing: .06em;
+}
+#cover .author strong { color: var(--vermillion); font-weight: 700; }
+#cover .scroll-hint {
+  position: absolute; bottom: 40px;
+  font-size: .72rem; color: var(--ink-lighter);
+  letter-spacing: .1em; animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+#cover .ornament {
+  width: 40px; height: 1px; background: var(--vermillion);
+  margin: 24px auto; position: relative;
+}
+#cover .ornament::before, #cover .ornament::after {
+  content: '◆'; position: absolute; top: -7px;
+  font-size: .5rem; color: var(--vermillion);
+}
+#cover .ornament::before { left: -20px; }
+#cover .ornament::after { right: -20px; }
+
+/* ── Content area ── */
+#content { max-width: var(--max-width); margin: 0 auto; padding: 60px 40px 120px; }
+#content.hidden { display: none; }
+
+.category-header { margin-bottom: 52px; text-align: center; }
+.category-header h2 {
+  font-size: 1.8rem; font-weight: 700; letter-spacing: .1em;
+  margin-bottom: 12px;
+}
+.category-header .subtitle {
+  font-size: .95rem; color: var(--ink-lighter);
+  font-style: italic; letter-spacing: .04em; line-height: 2;
+}
+
+/* ── Poem card ── */
+.poem-card {
+  margin-bottom: 64px; padding-bottom: 52px;
+  border-bottom: 1px solid var(--border-light);
+  scroll-margin-top: 32px;
+}
+.poem-card:last-child { border-bottom: none; }
+
+.poem-card h3 {
+  font-size: 1.15rem; font-weight: 600; letter-spacing: .08em;
+  text-align: center; margin-bottom: 28px; color: var(--ink);
+}
+
+.poem-body {
+  display: flex; justify-content: center; gap: 36px;
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+
+/* Vertical poem text */
+.poem-text {
+  writing-mode: vertical-rl;
+  font-size: 1.1rem; line-height: 2.1; letter-spacing: .08em;
+  font-weight: 400; color: var(--ink);
+  max-height: 460px; text-align: start;
+  padding: 20px 16px;
+  background: linear-gradient(to bottom, transparent, rgba(155,27,48,.03), transparent);
+  border-left: 1px solid var(--border-light);
+  border-right: 1px solid var(--border-light);
+}
+.poem-text.short { max-height: 280px; }
+.poem-text.medium { max-height: 380px; }
+
+.poem-image {
+  flex-shrink: 0; width: 280px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow), 0 1px 3px rgba(0,0,0,.06);
+  border: 6px solid #fff;
+}
+.poem-image img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block; min-height: 200px;
+}
+
+.poem-attribution {
+  text-align: center; font-size: .8rem;
+  color: var(--ink-lighter); letter-spacing: .06em;
+  margin-bottom: 24px;
+}
+
+/* ── Analysis ── */
+.analysis h4 {
+  font-size: .85rem; font-weight: 600;
+  letter-spacing: .1em; color: var(--vermillion);
+  margin-bottom: 12px;
+}
+.analysis h4::before { content: '—— '; }
+.analysis h4::after { content: ' ——'; }
+.analysis {
+  font-size: .88rem; color: var(--ink-light);
+  line-height: 1.9; max-width: 640px; margin: 0 auto;
+}
+.analysis p { margin-bottom: 12px; text-indent: 2em; }
+.analysis strong { color: var(--ink); font-weight: 600; }
+.analysis h5 { font-size: .82rem; font-weight: 600; color: var(--ink); margin: 20px 0 8px; }
+
+/* ── Poem separators ── */
+.poem-sep {
+  text-align: center; margin: 48px 0;
+  color: var(--border); font-size: .72rem;
+  letter-spacing: .24em;
+  user-select: none;
+}
+
+/* ── Back to top ── */
+#back-top {
+  position: fixed; bottom: 28px; right: 28px;
+  width: 38px; height: 38px;
+  background: var(--paper-dark); border: 1px solid var(--border);
+  border-radius: 50%; cursor: pointer; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: var(--ink-light);
+  opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+#back-top.visible { opacity: 1; pointer-events: auto; }
+
+/* ── Theory page special ── */
+.theory-content {
+  max-width: 680px; margin: 0 auto;
+  font-size: .9rem; line-height: 1.9;
+}
+.theory-content h3 { font-size: 1.05rem; font-weight: 600; margin: 32px 0 12px; }
+.theory-content p { margin-bottom: 12px; text-indent: 2em; }
+.theory-content blockquote {
+  margin: 16px 32px; padding: 12px 20px;
+  background: rgba(0,0,0,.02); border-left: 3px solid var(--vermillion);
+  font-style: italic; color: var(--ink-light);
+}
+.theory-content ul, .theory-content ol { margin: 8px 0 16px 24px; }
+.theory-content li { margin-bottom: 4px; }
+
+/* ── Loading ── */
+#loading {
+  display: none; text-align: center; padding: 80px 0;
+  color: var(--ink-lighter); letter-spacing: .06em;
+}
+#loading.visible { display: block; }
+#loading .dot { animation: dotPulse 1.4s infinite both; }
+#loading .dot:nth-child(2) { animation-delay: .2s; }
+#loading .dot:nth-child(3) { animation-delay: .4s; }
+@keyframes dotPulse { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
+
+/* ── Error ── */
+#error {
+  display: none; text-align: center; padding: 60px 0; color: var(--vermillion);
+}
+#error.visible { display: block; }
+
+/* ── Responsive ── */
+@media (max-width: 840px) {
+  #sidebar {
+    transform: translateX(-100%);
+    box-shadow: 4px 0 24px rgba(0,0,0,.15);
+  }
+  #sidebar.open { transform: translateX(0); }
+  #nav-toggle { display: flex; }
+  #overlay.open { display: block; }
+  #main { margin-left: 0; }
+  #content { padding: 40px 20px 100px; }
+
+  #cover h1 { font-size: 1.8rem; }
+  .poem-body { flex-direction: column; align-items: center; }
+  .poem-text {
+    writing-mode: horizontal-tb;
+    max-height: none; padding: 16px 0;
+    border-left: none; border-right: none;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    text-align: center; font-size: 1rem; line-height: 2;
+  }
+  .poem-image { width: 100%; max-width: 320px; }
+  .analysis { padding: 0 8px; }
+}
+
+@media (max-width: 480px) {
+  html { font-size: 15px; }
+  #cover h1 { font-size: 1.5rem; letter-spacing: .08em; }
+  #content { padding: 28px 16px 80px; }
+  .category-header h2 { font-size: 1.35rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile nav toggle -->
+<button id="nav-toggle" aria-label="菜单">
+  <span></span><span></span><span></span>
+</button>
+<div id="overlay"></div>
+
+<!-- Sidebar navigation -->
+<nav id="sidebar">
+  <div class="site-title">魏东坡诗词集</div>
+
+  <div class="nav-group">
+    <div class="nav-label">按城市</div>
+    <a href="#" data-file="poems/01-hangzhou.md">杭州<span class="count">24</span></a>
+    <a href="#" data-file="poems/02-beijing.md">北京<span class="count">2</span></a>
+    <a href="#" data-file="poems/03-nanjing.md">南京<span class="count">2</span></a>
+    <a href="#" data-file="poems/04-suzhou.md">苏州<span class="count">1</span></a>
+    <a href="#" data-file="poems/05-xitang.md">西塘<span class="count">2</span></a>
+    <a href="#" data-file="poems/06-qita-chengshi.md">其他城市<span class="count">8</span></a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">按主题</div>
+    <a href="#" data-file="poems/07-jiexu.md">节序风华<span class="count">10</span></a>
+    <a href="#" data-file="poems/08-huaigu.md">咏史怀古<span class="count">5</span></a>
+    <a href="#" data-file="poems/09-yongwu-shuhuai.md">咏物抒怀<span class="count">5</span></a>
+    <a href="#" data-file="poems/10-xiandai.md">现代诗笺<span class="count">3</span></a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">诗词理论</div>
+    <a href="#" data-file="poems/11-shici-lilun.md">格律与化用之争</a>
+  </div>
+
+  <div class="nav-group" style="margin-top:16px;border-top:1px solid var(--border-light);padding-top:16px;">
+    <a href="#" data-file="home" style="font-size:.82rem;color:var(--ink-lighter);">← 返回封面</a>
+  </div>
+</nav>
+
+<!-- Main content -->
+<div id="main">
+
+  <!-- Cover -->
+  <section id="cover">
+    <div class="seal">東</div>
+    <h1>魏东坡诗词集</h1>
+    <div class="ornament"></div>
+    <p class="tagline">青衫黛影烟雨寒，朝暮花落摇橹船。<br>知君故里春不晚，此身归隐去江南。</p>
+    <p class="author">杭州野生诗人 <strong>魏东坡</strong></p>
+    <p class="author" style="margin-top:4px;font-size:.78rem;">让中式美学走向世界</p>
+    <div class="scroll-hint">— 点击左侧目录开始阅读 —</div>
+  </section>
+
+  <!-- Content area -->
+  <div id="content" class="hidden"></div>
+  <div id="loading">载入中<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>
+  <div id="error">加载失败，请检查网络后重试</div>
+
+</div>
+
+<button id="back-top" title="返回顶部">↑</button>
+
+<!-- marked.js for Markdown parsing -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+(function() {
+  // ── Elements ──
+  const sidebar = document.getElementById('sidebar');
+  const navToggle = document.getElementById('nav-toggle');
+  const overlay = document.getElementById('overlay');
+  const cover = document.getElementById('cover');
+  const content = document.getElementById('content');
+  const loading = document.getElementById('loading');
+  const error = document.getElementById('error');
+  const backTop = document.getElementById('back-top');
+  const navLinks = sidebar.querySelectorAll('a[data-file]');
+
+  // ── Mobile nav ──
+  function closeNav() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+  navToggle.addEventListener('click', () => {
+    const open = sidebar.classList.toggle('open');
+    overlay.classList.toggle('open', open);
+  });
+  overlay.addEventListener('click', closeNav);
+
+  // ── Back to top ──
+  window.addEventListener('scroll', () => {
+    backTop.classList.toggle('visible', window.scrollY > 500);
+  });
+  backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // ── Configure marked ──
+  marked.setOptions({ breaks: true, gfm: true });
+
+  // ── Fix image paths: ../images/ → ./images/ ──
+  function fixImagePaths(html) {
+    return html.replace(/src="\.\.\/images\//g, 'src="./images/');
+  }
+
+  // ── Render poem content ──
+  function renderPoemHTML(rawMd) {
+    let html = marked.parse(rawMd);
+    html = fixImagePaths(html);
+
+    // Wrap in a container so we can process the structure
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+
+    // Find all h2 elements and their associated content
+    const sections = [];
+    let currentSection = null;
+
+    for (const el of Array.from(tmp.children)) {
+      if (el.tagName === 'H1') {
+        // Category title
+        const header = document.createElement('div');
+        header.className = 'category-header';
+        const h2 = document.createElement('h2');
+        h2.textContent = el.textContent;
+        header.appendChild(h2);
+
+        // Check if next element is a blockquote (tagline)
+        const next = el.nextElementSibling;
+        if (next && next.tagName === 'BLOCKQUOTE') {
+          const subtitle = document.createElement('p');
+          subtitle.className = 'subtitle';
+          subtitle.innerHTML = next.innerHTML.replace(/<br>/g, '<br>');
+          header.appendChild(subtitle);
+          next.remove();
+        }
+        sections.push({ type: 'header', el: header });
+        el.remove();
+      } else if (el.tagName === 'H2') {
+        // Poem title
+        if (currentSection) sections.push(currentSection);
+        currentSection = { type: 'poem', title: el.textContent, parts: [] };
+        el.remove();
+      } else if (currentSection && el.tagName === 'BLOCKQUOTE' && !currentSection.attribution && !currentSection.imageSrc) {
+        // Poem text blockquote (capture all stanzas before attribution/image)
+        const text = el.innerHTML.replace(/<br\s*\/?>/g, '\n').replace(/<[^>]*>/g, '').trim();
+        if (currentSection.poemText) {
+          currentSection.poemText += '\n\n' + text;
+        } else {
+          currentSection.poemText = text;
+        }
+        el.remove();
+      } else if (currentSection && el.tagName === 'P' && el.textContent.startsWith('———')) {
+        // Attribution line
+        currentSection.attribution = el.textContent.trim();
+        el.remove();
+      } else if (currentSection && el.tagName === 'P' && el.innerHTML.startsWith('<img')) {
+        // Image paragraph
+        const img = el.querySelector('img');
+        if (img) currentSection.imageSrc = img.getAttribute('src');
+        el.remove();
+      } else if (currentSection && el.tagName === 'HR') {
+        el.remove(); // skip horizontal rules
+      } else if (currentSection) {
+        // Everything else goes to parts (赏析)
+        currentSection.parts.push(el.cloneNode(true));
+        el.remove();
+      }
+    }
+    if (currentSection) sections.push(currentSection);
+
+    // Build HTML
+    const container = document.createDocumentFragment();
+
+    for (const section of sections) {
+      if (section.type === 'header') {
+        container.appendChild(section.el);
+      } else if (section.type === 'poem') {
+        const card = document.createElement('div');
+        card.className = 'poem-card';
+        card.id = 'poem-' + section.title.replace(/[·•\s]/g, '-');
+
+        // Title
+        const h3 = document.createElement('h3');
+        h3.textContent = section.title;
+        card.appendChild(h3);
+
+        // Poem body (text + image side by side)
+        if (section.poemText || section.imageSrc) {
+          const body = document.createElement('div');
+          body.className = 'poem-body';
+
+          if (section.poemText) {
+            const poemDiv = document.createElement('div');
+            poemDiv.className = 'poem-text';
+            // Determine length class
+            const lines = section.poemText.split('\n').length;
+            if (lines <= 4) poemDiv.classList.add('short');
+            else if (lines <= 8) poemDiv.classList.add('medium');
+            poemDiv.textContent = section.poemText;
+            body.appendChild(poemDiv);
+          }
+
+          if (section.imageSrc) {
+            const imgWrap = document.createElement('div');
+            imgWrap.className = 'poem-image';
+            const img = document.createElement('img');
+            img.src = section.imageSrc;
+            img.alt = section.title;
+            img.loading = 'lazy';
+            img.onerror = function() { this.parentElement.style.display = 'none'; };
+            imgWrap.appendChild(img);
+            body.appendChild(imgWrap);
+          }
+
+          card.appendChild(body);
+        }
+
+        // Attribution
+        if (section.attribution) {
+          const attr = document.createElement('p');
+          attr.className = 'poem-attribution';
+          attr.textContent = section.attribution;
+          card.appendChild(attr);
+        }
+
+        // Analysis
+        if (section.parts.length > 0) {
+          const analysis = document.createElement('div');
+          analysis.className = 'analysis';
+          for (const part of section.parts) {
+            // Convert h3 to h4, h4 to h5
+            if (part.tagName === 'H3') {
+              const h4 = document.createElement('h4');
+              h4.innerHTML = part.innerHTML;
+              analysis.appendChild(h4);
+            } else if (part.tagName === 'H4') {
+              const h5 = document.createElement('h5');
+              h5.innerHTML = part.innerHTML;
+              analysis.appendChild(h5);
+            } else {
+              // Clean up text content
+              if (part.tagName === 'P' && part.textContent.trim().startsWith('---')) continue;
+              analysis.appendChild(part);
+            }
+          }
+          card.appendChild(analysis);
+        }
+
+        container.appendChild(card);
+      }
+    }
+
+    return container;
+  }
+
+  // ── Render theory page (special handling) ──
+  function renderTheoryHTML(rawMd) {
+    let html = marked.parse(rawMd);
+    html = fixImagePaths(html);
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    tmp.className = 'theory-content';
+
+    // Remove H1 and its adjacent blockquote (subtitle)
+    const h1 = tmp.querySelector('h1');
+    if (h1) {
+      const header = document.createElement('div');
+      header.className = 'category-header';
+      const h2 = document.createElement('h2');
+      h2.textContent = h1.textContent;
+      header.appendChild(h2);
+
+      let next = h1.nextElementSibling;
+      if (next && next.tagName === 'BLOCKQUOTE') {
+        const subtitle = document.createElement('p');
+        subtitle.className = 'subtitle';
+        subtitle.innerHTML = next.innerHTML;
+        header.appendChild(subtitle);
+        next.remove();
+      }
+      h1.replaceWith(header);
+    }
+
+    // Convert H2 to H3 in theory pages
+    tmp.querySelectorAll('h2').forEach(h => {
+      const h3 = document.createElement('h3');
+      h3.innerHTML = h.innerHTML;
+      h.replaceWith(h3);
+    });
+
+    return tmp;
+  }
+
+  // ── Load and display a category ──
+  async function loadCategory(filePath) {
+    cover.style.display = 'none';
+    content.classList.add('hidden');
+    error.classList.remove('visible');
+    loading.classList.add('visible');
+    content.innerHTML = '';
+
+    try {
+      const resp = await fetch(filePath);
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const rawMd = await resp.text();
+
+      let rendered;
+      if (filePath.includes('shici-lilun')) {
+        rendered = renderTheoryHTML(rawMd);
+      } else {
+        rendered = renderPoemHTML(rawMd);
+      }
+
+      content.innerHTML = '';
+      content.appendChild(rendered);
+      loading.classList.remove('visible');
+      content.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error('Load error:', err);
+      loading.classList.remove('visible');
+      error.classList.add('visible');
+    }
+  }
+
+  // ── Show cover ──
+  function showCover() {
+    content.classList.add('hidden');
+    error.classList.remove('visible');
+    cover.style.display = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Navigation ──
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const file = this.getAttribute('data-file');
+
+      // Update active state
+      navLinks.forEach(l => l.classList.remove('active'));
+      if (file !== 'home') this.classList.add('active');
+
+      if (file === 'home') {
+        showCover();
+      } else {
+        loadCategory(file);
+      }
+
+      closeNav();
+    });
+  });
+
+  // ── Init ──
+  // Show cover by default
+  cover.style.display = '';
+})();
+</script>
+</body>
+</html>
